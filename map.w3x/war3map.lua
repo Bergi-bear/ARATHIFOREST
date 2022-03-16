@@ -1,6 +1,7 @@
 gg_rct_Region_000 = nil
 gg_trg_Untitled_Trigger_001 = nil
 gg_unit_Ogrh_0005 = nil
+gg_trg_GuiInit = nil
 function InitGlobals()
 end
 
@@ -10,7 +11,7 @@ function CreateUnitsForPlayer0()
     local unitID
     local t
     local life
-    u = BlzCreateUnitWithSkin(p, FourCC("Ogrh"), -4821.6, 2947.1, 308.088, FourCC("Ogrh"))
+    gg_unit_Ogrh_0005 = BlzCreateUnitWithSkin(p, FourCC("Ogrh"), -4821.6, 2947.1, 308.088, FourCC("Ogrh"))
 end
 
 function CreateNeutralPassiveBuildings()
@@ -1254,7 +1255,7 @@ do
             perebor = CreateGroup()
             --InitChainFrame()
             InitHEROTable()
-            --CreateKonosubaHeroes()
+            --  CreateKonosubaHeroes()
             --CreateSelectActions()
             InitMenu()
             --InitMouseMoveTrigger()
@@ -5286,13 +5287,13 @@ HeroID = FourCC("O000")
 function InitAnimations(hero, data)
 
 
-    if GetUnitTypeId(data.UnitHero) == FourCC("O000") then
-        --print("инициализацию анимация пеона")
-        data.AnimDurationWalk = 0.767 --длительность анимации движения, полный круг
-        data.IndexAnimationWalk = 1-- индекс анимации движения
+    if GetUnitTypeId(data.UnitHero) == FourCC("Ogrh") then
+        print("инициализацию анимация мастра клинка")
+        data.AnimDurationWalk = 0.767 --длительность анимации движения, полный круг, смотрим в retera или редакторе WE
+        data.IndexAnimationWalk = 5-- индекс анимации движения
         data.ResetDuration = 3.333 -- время сброса для анимации stand, длительность анимации stand
         data.IndexAnimationQ = 5 -- анимация сплеш удара
-        data.IndexAnimationSpace = 1 -- анимация для рывка, если анимации нет, ставь индекс аналогичный бегу
+        data.IndexAnimationSpace = 2 -- анимация для рывка, если анимации нет, ставь индекс аналогичный бегу
         data.IndexAnimationAttackInDash = 3 --анимация удара в рывке
         data.IndexAnimationThrow = 3 -- индекс анимациии броска чего либо
         data.IndexAnimationAttack1 = 4 --индекс анимации атаки в серии
@@ -5346,6 +5347,10 @@ end
 function InitWASD(hero)
     --print("initwasdSTART",GetUnitName(hero))
     local data = HERO[GetPlayerId(GetOwningPlayer(hero))]
+    if not data.UnitHero then
+        --print("пробуем ещё раз")
+        data.UnitHero=hero
+    end
     InitAnimations(hero, data)
     BlockMouse(data)
     SelectUnitForPlayerSingle(data.UnitHero, GetOwningPlayer(hero))
@@ -5999,10 +6004,10 @@ function CreateWASDActions()
                         -- нельзя сделать во вращении
                         if data.IsMoving then
                             --print("в движении")
-                            SetUnitTimeScale(data.UnitHero, 4)
+                            --SetUnitTimeScale(data.UnitHero, 4)
                         else
                             --print("стоя на месте")
-                            SetUnitTimeScale(data.UnitHero, 4)
+                            --SetUnitTimeScale(data.UnitHero, 4)
                         end
                         SetUnitAnimationByIndex(data.UnitHero, data.IndexAnimationSpace)-- Всегда бег
                         --SetUnitAnimationByIndex(data.UnitHero, 27) -- 27 для кувырка -- IndexAnimationWalk -- для бега
@@ -7440,6 +7445,21 @@ function CreateEnterPoint(EnterRect)
 
 end
 --CUSTOM_CODE
+function Trig_GuiInit_Actions()
+    SetUnitAnimation(gg_unit_Ogrh_0005, "stand")
+        InitWASD(gg_unit_Ogrh_0005)
+end
+
+function InitTrig_GuiInit()
+    gg_trg_GuiInit = CreateTrigger()
+    TriggerRegisterTimerEventSingle(gg_trg_GuiInit, 1.00)
+    TriggerAddAction(gg_trg_GuiInit, Trig_GuiInit_Actions)
+end
+
+function InitCustomTriggers()
+    InitTrig_GuiInit()
+end
+
 function InitCustomPlayerSlots()
     SetPlayerStartLocation(Player(0), 0)
     SetPlayerColor(Player(0), ConvertPlayerColor(0))
@@ -7467,6 +7487,7 @@ function main()
     CreateAllUnits()
     InitBlizzard()
     InitGlobals()
+    InitCustomTriggers()
 end
 
 function config()
@@ -7475,7 +7496,7 @@ function config()
     SetPlayers(1)
     SetTeams(1)
     SetGamePlacement(MAP_PLACEMENT_USE_MAP_SETTINGS)
-    DefineStartLocation(0, -4224.0, 8896.0)
+    DefineStartLocation(0, -4800.0, 2880.0)
     InitCustomPlayerSlots()
     SetPlayerSlotAvailable(Player(0), MAP_CONTROL_USER)
     InitGenericPlayerSlots()

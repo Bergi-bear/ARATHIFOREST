@@ -7,13 +7,13 @@ HeroID = FourCC("O000")
 function InitAnimations(hero, data)
 
 
-    if GetUnitTypeId(data.UnitHero) == FourCC("O000") then
-        --print("инициализацию анимация пеона")
-        data.AnimDurationWalk = 0.767 --длительность анимации движения, полный круг
-        data.IndexAnimationWalk = 1-- индекс анимации движения
+    if GetUnitTypeId(data.UnitHero) == FourCC("Ogrh") then
+        print("инициализацию анимация мастра клинка")
+        data.AnimDurationWalk = 0.767 --длительность анимации движения, полный круг, смотрим в retera или редакторе WE
+        data.IndexAnimationWalk = 5-- индекс анимации движения
         data.ResetDuration = 3.333 -- время сброса для анимации stand, длительность анимации stand
         data.IndexAnimationQ = 5 -- анимация сплеш удара
-        data.IndexAnimationSpace = 1 -- анимация для рывка, если анимации нет, ставь индекс аналогичный бегу
+        data.IndexAnimationSpace = 2 -- анимация для рывка, если анимации нет, ставь индекс аналогичный бегу
         data.IndexAnimationAttackInDash = 3 --анимация удара в рывке
         data.IndexAnimationThrow = 3 -- индекс анимациии броска чего либо
         data.IndexAnimationAttack1 = 4 --индекс анимации атаки в серии
@@ -67,6 +67,10 @@ end
 function InitWASD(hero)
     --print("initwasdSTART",GetUnitName(hero))
     local data = HERO[GetPlayerId(GetOwningPlayer(hero))]
+    if not data.UnitHero then
+        --print("пробуем ещё раз")
+        data.UnitHero=hero
+    end
     InitAnimations(hero, data)
     BlockMouse(data)
     SelectUnitForPlayerSingle(data.UnitHero, GetOwningPlayer(hero))
@@ -720,10 +724,10 @@ function CreateWASDActions()
                         -- нельзя сделать во вращении
                         if data.IsMoving then
                             --print("в движении")
-                            SetUnitTimeScale(data.UnitHero, 4)
+                            --SetUnitTimeScale(data.UnitHero, 4)
                         else
                             --print("стоя на месте")
-                            SetUnitTimeScale(data.UnitHero, 4)
+                            --SetUnitTimeScale(data.UnitHero, 4)
                         end
                         SetUnitAnimationByIndex(data.UnitHero, data.IndexAnimationSpace)-- Всегда бег
                         --SetUnitAnimationByIndex(data.UnitHero, 27) -- 27 для кувырка -- IndexAnimationWalk -- для бега
