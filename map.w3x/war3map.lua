@@ -1,7 +1,7 @@
 gg_rct_Region_000 = nil
 gg_trg_Untitled_Trigger_001 = nil
-gg_unit_Ogrh_0005 = nil
 gg_trg_GuiInit = nil
+gg_unit_Ogrh_0005 = nil
 function InitGlobals()
 end
 

@@ -1,6 +1,6 @@
 [Errors]
-Nothidden=" "
+Nothidden=TRIGSTR_043
 
 [FrameDef]
-SELECTTARGET=" "
+SELECTTARGET=TRIGSTR_044
 
