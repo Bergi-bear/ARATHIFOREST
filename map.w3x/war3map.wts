@@ -1,0 +1,216 @@
+﻿STRING 1
+{
+Player 1
+}
+
+STRING 2
+{
+Force 1
+}
+
+STRING 3
+// Doodads: D000 (+[Grass] Orange), Name (Name)
+{
++[Grass] Orange
+}
+
+STRING 4
+// Doodads: D001 (+[Grass] Bush Orange), Name (Name)
+{
++[Grass] Bush Orange
+}
+
+STRING 5
+// Doodads: D002 (+[Tree] Red), Name (Name)
+{
++[Tree] Red
+}
+
+STRING 7
+// Doodads: D004 (+[Grass] Bush Red), Name (Name)
+{
++[Grass] Bush Red
+}
+
+STRING 8
+{
+Arathi Forest
+}
+
+STRING 9
+{
+Any
+}
+
+STRING 10
+{
+Nondescript
+}
+
+STRING 11
+{
+Alan
+}
+
+STRING 12
+// Doodads: D003 (+[Tree] Brown), Name (Name)
+{
++[Tree] Brown
+}
+
+STRING 13
+// Doodads: D005 (+[Grass] Orange 2), Name (Name)
+{
++[Grass] Orange 2
+}
+
+STRING 14
+// Doodads: D006 (+[Grass] Red), Name (Name)
+{
++[Grass] Red
+}
+
+STRING 15
+// Doodads: D007 (+[Grass] Bush Orange 2), Name (Name)
+{
++[Grass] Bush Orange 2
+}
+
+STRING 16
+// Doodads: D008 (+[Stairs] 1), Name (Name)
+{
++[Stairs] 1
+}
+
+STRING 17
+// Doodads: D009 (+[Stairs] 2), Name (Name)
+{
++[Stairs] 2
+}
+
+STRING 18
+// Doodads: D00A (+[Stairs] 3), Name (Name)
+{
++[Stairs] 3
+}
+
+STRING 19
+// Doodads: D00B (+[Stairs] 4), Name (Name)
+{
++[Stairs] 4
+}
+
+STRING 20
+// Doodads: D00C (+[Stairs] 5), Name (Name)
+{
++[Stairs] 5
+}
+
+STRING 21
+// Doodads: D00D (+[Stairs] 6), Name (Name)
+{
++[Stairs] 6
+}
+
+STRING 24
+// Doodads: D00F (+[STONE] mount1), Name (Name)
+{
++[STONE] mount1
+}
+
+STRING 25
+// Doodads: D00G (+[STONE] mount2), Name (Name)
+{
++[STONE] mount2
+}
+
+STRING 26
+// Doodads: D00H (+[STONE] mount3), Name (Name)
+{
++[STONE] mount3
+}
+
+STRING 27
+// Doodads: D00I (+[STONE] wall1), Name (Name)
+{
++[STONE] wall1
+}
+
+STRING 28
+// Doodads: D00J (+[STONE] wall4), Name (Name)
+{
++[STONE] wall4
+}
+
+STRING 29
+// Doodads: D00K (+[STONE] wall3), Name (Name)
+{
++[STONE] wall3
+}
+
+STRING 30
+// Doodads: D00L (+[STONE] wall2), Name (Name)
+{
++[STONE] wall2
+}
+
+STRING 31
+// Doodads: D00M (!FOG), Name (Name)
+{
+!FOG
+}
+
+STRING 32
+// Doodads: D00N (+[STONE] small1), Name (Name)
+{
++[STONE] small1
+}
+
+STRING 33
+// Doodads: D00O (+[STONE] small2), Name (Name)
+{
++[STONE] small2
+}
+
+STRING 34
+// Doodads: D00P (+[STONE] small3), Name (Name)
+{
++[STONE] small3
+}
+
+STRING 35
+// Doodads: D00Q (+[WATER] RED), Name (Name)
+{
++[WATER] RED
+}
+
+STRING 38
+// Doodads: D00E (+[ПРОЧЕЕ] ПИКИ), Name (Name)
+{
++[ПРОЧЕЕ] ПИКИ
+}
+
+STRING 39
+// Doodads: D00R (+[STRUCTURE] АРКА), Name (Name)
+{
++[STRUCTURE] АРКА
+}
+
+STRING 40
+// Doodads: D00T (+[ARCHTITECTURE] Обелиск), Name (Name)
+{
++[ARCHTITECTURE] Обелиск
+}
+
+STRING 41
+// Doodads: D00U (+[ARCHTITECTURE] Обелиск RUINED), Name (Name)
+{
++[ARCHTITECTURE] Обелиск RUINED
+}
+
+STRING 42
+// Doodads: D00V (+[ПРОЧЕЕ] ПИКИ 2), Name (Name)
+{
++[ПРОЧЕЕ] ПИКИ 2
+}
+
