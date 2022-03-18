@@ -52,15 +52,15 @@ function UnitAddForceSimple(hero, angle, speed, distance, flag, pushing)
                 --end
             end
 
-            if (flag == "ignore" and GetUnitData(hero).IframesOnDash) or makeJump then
+            if (flag == "ignore" and GetUnitData(hero).IframesOnDash) or makeJump or flag=="ignoreAll" then
                 -- print("попытка")
                 local is, d = PointContentDestructable(newVector.x, newVector.y, 120, false)
                 if is then
                     -- print("есть какой-то декор")
                 end
-                if GetDestructableTypeId(d) == FourCC("B00A") then
-                    SetUnitX(hero, newX)
-                    SetUnitY(hero, newY)
+                if flag=="ignoreAll" then
+                    SetUnitX(hero, newVector.x)
+                    SetUnitY(hero, newVector.y)
                     --print("пройти на сквозь")
                 else
                     --SetUnitPositionSmooth(hero, newX, newY)
@@ -145,7 +145,7 @@ function UnitAddForceSimple(hero, angle, speed, distance, flag, pushing)
             end
 
             if currentdistance >= distance then
-                --закончил движение
+                --print("закончил движение")
                 --or (data.OnWater and data.OnTorrent==false)
                 --data.IsDisabled=false
                 --data.OnWater=false

@@ -16,15 +16,10 @@ function CreateSimpleFrameGlue(posX, PosY, texture,parent)
     --BlzFrameSetVisible(SelfFrame, false)
     -- BlzFrameSetVisible(SelfFrame, GetLocalPlayer() == player)
     BlzFrameSetAllPoints(buttonIconFrame, SelfFrame)
-    BlzFrameSetTexture(buttonIconFrame, "icons\\" .. texture, 0, true)
+    BlzFrameSetTexture(buttonIconFrame, "ReplaceableTextures\\CommandButtons\\BTNSelectHeroOn", 0, true) --"icons\\" ..
     BlzFrameSetSize(SelfFrame, NextPoint, NextPoint)
     BlzFrameSetAbsPoint(SelfFrame, FRAMEPOINT_CENTER, posX, PosY)
-    local gif = nil
-    if texture == "line" then
-        --print(texture, создана гифка)
-        gif = CreateAndPlayGif(posX, PosY + 0.20, "dds\\Gifline\\Gif" .. texture .. "_", 0.16, 25, nil, nil, 1)
-        BlzFrameSetVisible(gif, false)
-    end
+
 
     local ClickTrig = CreateTrigger()
     BlzTriggerRegisterFrameEvent(ClickTrig, SelfFrame, FRAMEEVENT_CONTROL_CLICK)
@@ -45,7 +40,7 @@ function CreateSimpleFrameGlue(posX, PosY, texture,parent)
         --print("показать подсказку ",flag)
         for i = 1, #data.SpellsName do
             if data.SpellsName[i] == texture then
-               -- print(texture,i)
+                print(texture)
                 --CreateFlyFrame(data, SelfFrame, texture)
                 return
             end

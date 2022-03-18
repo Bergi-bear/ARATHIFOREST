@@ -96,7 +96,9 @@ function InitHEROTable()
             --
 
         }
-
+        if IsPlayerSlotState(Player(i),PLAYER_SLOT_STATE_PLAYING) and GetPlayerController(Player(i)) == MAP_CONTROL_USER then
+            InitSpellPanel(HERO[i])
+        end
         --InitInputHandler(HERO[i])
         --CreatePeonForPlayer(HERO[i])
 

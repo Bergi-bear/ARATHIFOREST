@@ -217,6 +217,11 @@ function AngleBetweenUnits(caster, target)
     return Atan2BJ(yb - ya, xb - xa)
 end
 
+function DistanceBetweenUnits(caster, target)
+    --print("DIST",GetUnitX(caster),GetUnitY(caster),GetUnitX(target),GetUnitY(target))
+    return DistanceBetweenXY(GetUnitX(caster),GetUnitY(caster),GetUnitX(target),GetUnitY(target))
+end
+
 function math.clamp (inb, low, high)
     --
     return math.min(math.max(inb, low), high)
@@ -284,7 +289,7 @@ function PointInTriangle(x, y, x1, y1, x2, y2, x3, y3)
     local n = (x3 - x) * (y1 - y3) - (x1 - x3) * (y3 - y)
     if k >= 0 and m >= 0 and n >= 0 then
         return true
-    elseif   k<=0 and m<=0 and n<=0 then
+    elseif k <= 0 and m <= 0 and n <= 0 then
         return false
     end
 end

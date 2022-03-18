@@ -35,6 +35,8 @@ do
             --CreateTabActions()
             PlayUnitAnimationFromChat()
             ControlGameCam()
+            RegisterKeySpell()
+
             --wGeometry = wGeometryInit()
             --ShapeInit()
             --SetDayNightModels("Environment\\DNC\\DNCAshenvale\\DNCAshenvaleTerrain\\DNCAshenvaleTerrain.mdl", "Environment\\DNC\\DNCAshenvale\\DNCAshenvaleUnit\\DNCAshenvaleUnit.mdl")

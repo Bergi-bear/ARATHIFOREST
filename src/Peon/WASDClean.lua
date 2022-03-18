@@ -8,7 +8,7 @@ function InitAnimations(hero, data)
 
 
     if GetUnitTypeId(data.UnitHero) == FourCC("Ogrh") then
-        print("инициализацию анимация мастра клинка")
+        --print("инициализацию анимацию мастра клинка")
         data.AnimDurationWalk = 0.767 --длительность анимации движения, полный круг, смотрим в retera или редакторе WE
         data.IndexAnimationWalk = 5-- индекс анимации движения
         data.ResetDuration = 3.333 -- время сброса для анимации stand, длительность анимации stand
