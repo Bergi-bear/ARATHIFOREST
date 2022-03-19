@@ -206,6 +206,12 @@ function UnitAddForceSimple(hero, angle, speed, distance, flag, pushing)
                 --or (data.OnWater and data.OnTorrent==false)
                 --data.IsDisabled=false
                 --data.OnWater=false
+
+                if flag=="ignoreAll"  then
+                    SetUnitTimeScale(hero,1)
+                    ResetUnitAnimation(hero)
+                end
+
                 if flag == "shieldDash" then
                     local data = GetUnitData(hero)
                     data.ShieldDashReflect = false
@@ -1718,13 +1724,9 @@ function InitMouseClickEvent()
     end
     TriggerAddAction(TrigPressLMB, function()
         if BlzGetTriggerPlayerMouseButton() == MOUSE_BUTTON_TYPE_LEFT then
-            local x,y=BlzGetTriggerPlayerMouseX(),BlzGetTriggerPlayerMouseY()
-           -- print("клик левой",x,y)
-
+            -- print("клик левой",x,y)
             local data = HERO[GetPlayerId(GetTriggerPlayer())]
             data.LMBIsPressed = true
-            TargetCatcher(data,x,y,200)
-
         end
     end)
 
@@ -1747,16 +1749,11 @@ function InitMouseClickEvent()
             if UnitAlive(data.UnitHero) then
 
                 if not data.SpaceForce then
-                    if GetUnitTypeId(data.UnitHero)==KazumaID or GetUnitTypeId(data.UnitHero)==DarknessID then
+                    if true then
                         AttackMelee(data)
-
                     end
-
                 end
-
             end
-
-
         end
     end)
     ---------------------- RMB
@@ -1770,13 +1767,9 @@ function InitMouseClickEvent()
             local data = HERO[GetPlayerId(GetTriggerPlayer())]
             data.RMBIsPressed = true
             local id = GetPlayerId(GetTriggerPlayer())
-            if not GetUnitTypeId(data.UnitHero)==KazumaID then
-                GetPlayerMouseX[id] = BlzGetTriggerPlayerMouseX()
-                GetPlayerMouseY[id] = BlzGetTriggerPlayerMouseY()
-            else
-                data.StartWaveCastX = BlzGetTriggerPlayerMouseX()
-                data.StartWaveCastY = BlzGetTriggerPlayerMouseY()
-            end
+            local x, y = BlzGetTriggerPlayerMouseX(), BlzGetTriggerPlayerMouseY()
+
+            TargetCatcher(data, x, y, 200)
         end
     end)
 
@@ -1789,7 +1782,7 @@ function InitMouseClickEvent()
             local data = HERO[GetPlayerId(GetTriggerPlayer())]
             data.RMBIsPressed = false
             local id = GetPlayerId(GetTriggerPlayer())
-            if  GetUnitTypeId(data.UnitHero)~=KazumaID then
+            if GetUnitTypeId(data.UnitHero) ~= KazumaID then
                 GetPlayerMouseX[id] = BlzGetTriggerPlayerMouseX()
                 GetPlayerMouseY[id] = BlzGetTriggerPlayerMouseY()
             else
@@ -3467,11 +3460,14 @@ end
 --- DateTime: 18.03.2022 3:25
 ---
 function SpellCharge(hero,enemy)
+    local data=GetUnitData(hero)
     local dist=DistanceBetweenUnits(hero,enemy)
     local angle=AngleBetweenUnits(hero,enemy)
-    local speed=30
+    local speed=20
     --print(hero,enemy,dist,angle,speed)
     BlzSetUnitFacingEx(hero,angle)
+    SetUnitAnimationByIndex(hero,data.IndexAnimationWalk)
+    SetUnitTimeScale(hero,4)
     UnitAddForceSimple(hero,angle,speed,dist,"ignoreAll")
 end
 ---
@@ -4496,7 +4492,7 @@ function AttackMelee(data)
         if not data.isAttacking then
             --print("пытаемся атаковать, запускаем кд атаки и прерываем движение")
             --print("a "..GetUnitName(mainHero))
-            local cdAttack = 0.4
+            local cdAttack = 0.6
             local indexAnim = data.IndexAnimationAttack1 --анимации атаки
             local pid = GetPlayerId(GetOwningPlayer(data.UnitHero))
             data.isAttacking = true
@@ -4515,13 +4511,6 @@ function AttackMelee(data)
 
             --local tmp=data.DamageInSeries
             --local lastAttack=#tmp
-            if data.LineCleaveAttack then
-                --data.LineCleaveAttack
-                TimerStart(CreateTimer(), 0.2, false, function()
-                    CreateAndForceBullet(data.UnitHero, angle, 20, "Abilities\\Spells\\Orc\\Shockwave\\ShockwaveMissile.mdl", GetUnitX(data.UnitHero), GetUnitY(data.UnitHero), 50, 700)
-                    DestroyTimer(GetExpiredTimer())
-                end)
-            end
 
             if GetUnitTypeId(data.UnitHero) == HeroID then
                 --local data=HERO[GetPlayerId(GetOwningPlayer(u))]
@@ -4535,7 +4524,7 @@ function AttackMelee(data)
             if data.AttackCount == 1 then
                 -- первый обычный удар
                 indexAnim = data.IndexAnimationAttack1
-                normal_sound("abilities\\weapons\\bristlebackmissile\\bristlebackmissilelaunch"..1, GetUnitXY(data.UnitHero))
+                --normal_sound("abilities\\weapons\\bristlebackmissile\\bristlebackmissilelaunch"..1, GetUnitXY(data.UnitHero))
                 TimerStart(CreateTimer(), 0.2, false, function()
                     DestroyTimer(GetExpiredTimer())
                     local eff = AddSpecialEffect(effectModel, GetUnitXY(data.UnitHero))
@@ -4552,9 +4541,9 @@ function AttackMelee(data)
 
                 if r == 1 then
                     indexAnim = data.IndexAnimationAttack1
-                    cdAttack = 0.4
+                    --cdAttack = 0.4
                     UnitAddForceSimple(data.UnitHero, GetUnitFacing(data.UnitHero), 10, 60)
-                    normal_sound("abilities\\weapons\\bristlebackmissile\\bristlebackmissilelaunch"..2, GetUnitXY(data.UnitHero))
+                    --normal_sound("abilities\\weapons\\bristlebackmissile\\bristlebackmissilelaunch"..2, GetUnitXY(data.UnitHero))
                     TimerStart(CreateTimer(), 0.3, false, function()
                         DestroyTimer(GetExpiredTimer())
                         local eff = AddSpecialEffect(effectModel, GetUnitXY(data.UnitHero))
@@ -4566,7 +4555,7 @@ function AttackMelee(data)
                     end)
                 else
                     indexAnim = data.IndexAnimationAttack2
-                    cdAttack = 0.4
+                    --cdAttack = 0.4
                     normal_sound("abilities\\weapons\\bristlebackmissile\\bristlebackmissilelaunch"..3, GetUnitXY(data.UnitHero))
                     TimerStart(CreateTimer(), 0.2, false, function()
                         DestroyTimer(GetExpiredTimer())
@@ -4595,7 +4584,7 @@ function AttackMelee(data)
                 normal_sound("Sound\\PeonSound\\cut\\BloodlustTarget", GetUnitXY(data.UnitHero))
                 TimerStart(CreateTimer(), 0.2, false, function()
                     DestroyTimer(GetExpiredTimer())
-                    normal_sound("abilities\\weapons\\bristlebackmissile\\bristlebackmissilelaunch3", GetUnitXY(data.UnitHero))
+                    --normal_sound("abilities\\weapons\\bristlebackmissile\\bristlebackmissilelaunch3", GetUnitXY(data.UnitHero))
                     UnitAddForceSimple(data.UnitHero, GetUnitFacing(data.UnitHero), 20, 120)
 
                     damage = data.DamageInSeries[finale] -- финальная атака
@@ -4635,7 +4624,7 @@ function AttackMelee(data)
 
 
 
-            TimerStart(CreateTimer(), cdAttack/2, false, function()
+            TimerStart(CreateTimer(), cdAttack, false, function()
                 DestroyTimer(GetExpiredTimer())
                 -- кд атаки тут для всех ударов
                 local nx, ny = MoveXY(GetUnitX(data.UnitHero), GetUnitY(data.UnitHero), 100, GetUnitFacing(data.UnitHero))
@@ -5343,53 +5332,16 @@ function InitAnimations(hero, data)
         data.AnimDurationWalk = 0.767 --длительность анимации движения, полный круг, смотрим в retera или редакторе WE
         data.IndexAnimationWalk = 5-- индекс анимации движения
         data.ResetDuration = 3.333 -- время сброса для анимации stand, длительность анимации stand
-        data.IndexAnimationQ = 5 -- анимация сплеш удара
+        data.IndexAnimationQ = 2 -- анимация сплеш удара
         data.IndexAnimationSpace = 2 -- анимация для рывка, если анимации нет, ставь индекс аналогичный бегу
         data.IndexAnimationAttackInDash = 3 --анимация удара в рывке
         data.IndexAnimationThrow = 3 -- индекс анимациии броска чего либо
-        data.IndexAnimationAttack1 = 4 --индекс анимации атаки в серии
-        data.IndexAnimationAttack2 = 4 --индекс анимации атаки в серии
-        data.IndexAnimationAttack3 = 5 --индекс анимации  атаки в серии
+        data.IndexAnimationAttack1 = 7 --индекс анимации атаки в серии
+        data.IndexAnimationAttack2 = 7 --индекс анимации атаки в серии
+        data.IndexAnimationAttack3 = 1 --индекс анимации  атаки в серии
         data.IndexAnimationSpin = 3 -- индекс анимации для удара во вращении
     elseif GetUnitTypeId(data.UnitHero) == KazumaID then
-        -- Казума
-        data.AnimDurationWalk = 0.6 --длительность анимации движения, полный круг
-        data.IndexAnimationWalk = 1 -- индекс анимации движения
-        data.ResetDuration = 1.9 -- время сброса для анимации stand, длительность анимации stand
-        data.IndexAnimationQ = 9 -- анимация сплеш удара - прыжка
-        data.IndexAnimationSpace = 5 -- анимация для рывка, если анимации нет, ставь индекс аналогичный бегу
-        data.IndexAnimationAttackInDash = 4 --анимация удара в рывке
-        data.IndexAnimationThrow = 4 -- индекс анимациии броска чего либо
-        data.IndexAnimationAttack1 = 3 --индекс анимации атаки в серии
-        data.IndexAnimationAttack2 = 8 --индекс анимации атаки в серии
-        data.IndexAnimationAttack3 = 4 --индекс анимации  атаки в серии
-        data.IndexAnimationSpin = 4 -- индекс анимации для удара во вращении
-    elseif GetUnitTypeId(data.UnitHero) == DarknessID then
-        -- Даркнесс
-        data.AnimDurationWalk = 0.6 --длительность анимации движения, полный круг
-        data.IndexAnimationWalk = 1 -- индекс анимации движения
-        data.ResetDuration = 1.9 -- время сброса для анимации stand, длительность анимации stand
-        data.IndexAnimationQ = 4 -- анимация сплеш удара
-        data.IndexAnimationSpace = 18 -- анимация для рывка, если анимации нет, ставь индекс аналогичный бегу
-        data.IndexAnimationAttackInDash = 4 --анимация удара в рывке
-        data.IndexAnimationThrow = 4 -- индекс анимациии броска чего либо
-        data.IndexAnimationAttack1 = 6 --индекс анимации атаки в серии
-        data.IndexAnimationAttack2 = 7 --индекс анимации атаки в серии
-        data.IndexAnimationAttack3 = 8 --индекс анимации  атаки в серии
-        data.IndexAnimationSpin = 4 -- индекс анимации для удара во вращении
-    elseif GetUnitTypeId(data.UnitHero) == FourCC("Udre") then
-        -- Повелитель ужаса
-        data.AnimDurationWalk = 1 --длительность анимации движения, полный круг
-        data.IndexAnimationWalk = 5 -- индекс анимации движения
-        data.ResetDuration = 1.8 -- время сброса для анимации stand, длительность анимации stand
-        data.IndexAnimationQ = 10 -- анимация сплеш удара
-        data.IndexAnimationSpace = 5 -- анимация для рывка, если анимации нет, ставь индекс аналогичный бегу
-        data.IndexAnimationAttackInDash = 6 --анимация удара в рывке
-        data.IndexAnimationThrow = 9 -- индекс анимациии броска чего либо
-        data.IndexAnimationAttack1 = 9 --индекс анимации атаки в серии
-        data.IndexAnimationAttack2 = 4 --индекс анимации атаки в серии
-        data.IndexAnimationAttack3 = 10 --индекс анимации  атаки в серии
-        data.IndexAnimationSpin = 5 -- индекс анимации для удара во вращении
+        print("else")
     else
         print("Данного героя нет в таблице анимаций")
     end
@@ -5400,7 +5352,7 @@ function InitWASD(hero)
     local data = HERO[GetPlayerId(GetOwningPlayer(hero))]
     if not data.UnitHero then
         --print("пробуем ещё раз")
-        data.UnitHero=hero
+        data.UnitHero = hero
     end
     InitAnimations(hero, data)
     BlockMouse(data)
@@ -5426,7 +5378,7 @@ function InitWASD(hero)
             --ForceUIKeyBJ(GetOwningPlayer(hero), "A")
             --ForceUIKeyBJ(GetOwningPlayer(hero), "S")
             --ForceUIKeyBJ(GetOwningPlayer(hero), "D")
-           -- ForceUIKeyBJ(GetOwningPlayer(hero), "F")
+            -- ForceUIKeyBJ(GetOwningPlayer(hero), "F")
             ForceUIKeyBJ(GetOwningPlayer(hero), "Z")
             ForceUIKeyBJ(GetOwningPlayer(hero), "X")
             ForceUIKeyBJ(GetOwningPlayer(hero), "C")
@@ -5940,11 +5892,7 @@ function CreateWASDActions()
             --SelectUnitForPlayerSingle(data.UnitHero,Player(0))
             if not data.SpaceForce then
                 data.animStand = 1.8 --до полной анимации 2 секунды
-                --print("SPACE")
-                if not data.tasks[5] then
-                    data.tasks[5] = true
-                    --print("Первый раз сделал рывок")
-                end
+                print("SPACE")
 
                 local dist = 200
                 local delay = 0.2
@@ -5956,10 +5904,7 @@ function CreateWASDActions()
                     --print("q+space")
                     SetUnitAnimationByIndex(data.UnitHero, data.IndexAnimationQ) -- киркой в землю в рывке
 
-                    if not data.tasks[8] then
-                        data.tasks[8] = true
-                        --print("Первый раз сделал краш")
-                    end
+
                 end
 
                 data.DashCharges = data.DashCharges - 1
@@ -5976,16 +5921,7 @@ function CreateWASDActions()
                 --UnitAddItemById(data.UnitHero, FourCC("I000")) -- предмет виндволк
                 BlzSetUnitFacingEx(data.UnitHero, data.DirectionMove)
                 --print("разворот при рывке")
-                if data.Time2HealDash > 0 then
-                    HealUnit(data.UnitHero, data.Time2HealDash)
-                    local talon = GlobalTalons[data.pid]["Trall"][7]
-                    --StartFrameCD(talon.DS[talon.level], data.HealDashCDFH)
-                    data.HealDashCurrentCD = talon.DS[talon.level]
-                    TimerStart(CreateTimer(), data.HealDashCurrentCD, false, function()
-                        data.HealDashCurrentCD = 0
-                        DestroyTimer(GetExpiredTimer())
-                    end)
-                end
+
 
                 --------------------------------
                 if data.isSpined then
@@ -6003,7 +5939,7 @@ function CreateWASDActions()
                     --CreateAndForceBullet(data.UnitHero, data.DirectionMove, 5, "Abilities\\Weapons\\SentinelMissile\\SentinelMissile.mdl", x, y, 5, 350, 350)
                 end
 
-                if  GetUnitTypeId(data.UnitHero)==KazumaID or GetUnitTypeId(data.UnitHero)==DarknessID then
+                if GetUnitTypeId(data.UnitHero) == KazumaID or GetUnitTypeId(data.UnitHero) == DarknessID or true then
                     local nx, ny = MoveXY(GetUnitX(data.UnitHero), GetUnitY(data.UnitHero), dist, data.DirectionMove)
                     local PerepadZ = GetTerrainZ(MoveXY(GetUnitX(data.UnitHero), GetUnitY(data.UnitHero), 120, data.DirectionMove)) - GetTerrainZ(GetUnitX(data.UnitHero), GetUnitY(data.UnitHero))
                     --print(PerepadZ)
@@ -6013,7 +5949,7 @@ function CreateWASDActions()
                         if not Chk2Way(GetUnitX(data.UnitHero), GetUnitY(data.UnitHero), nx, ny) then
                             Blink2Point(data, nx, ny)
                         else
-                            -- print("прыжок вниз?")
+                            print("прыжок вниз?")
 
                             UnitAddForceSimple(data.UnitHero, data.DirectionMove, 25, dist, "ignore") --САМ рывок при нажатии пробела
                         end
@@ -6245,14 +6181,14 @@ function PlayUnitAnimationFromChat()
             --CreateForUnitWayToPoint(mainHero,CQX,CQY)
             return
         end
-          SetUnitAnimationByIndex(data.UnitHero, s)
+        SetUnitAnimationByIndex(data.UnitHero, s)
         print(GetUnitName(data.UnitHero) .. " " .. s)
     end)
 end
 
 function ControlGameCam()
     TimerStart(CreateTimer(), TIMER_PERIOD64, true, function()
-            CameraSetupApplyForPlayer(false, gg_cam_Camera_001, Player(0), 1.00)
+        CameraSetupApplyForPlayer(false, gg_cam_Camera_001, Player(0), 1.00)
     end)
 end
 ---
@@ -7498,7 +7434,7 @@ end
 --CUSTOM_CODE
 function Trig_GuiInit_Actions()
     SetUnitAnimation(gg_unit_Ogrh_0005, "stand")
-        InitWASD(gg_unit_Ogrh_0005)
+    InitWASD(gg_unit_Ogrh_0005)
 end
 
 function InitTrig_GuiInit()

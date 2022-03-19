@@ -149,6 +149,12 @@ function UnitAddForceSimple(hero, angle, speed, distance, flag, pushing)
                 --or (data.OnWater and data.OnTorrent==false)
                 --data.IsDisabled=false
                 --data.OnWater=false
+
+                if flag=="ignoreAll"  then
+                    SetUnitTimeScale(hero,1)
+                    ResetUnitAnimation(hero)
+                end
+
                 if flag == "shieldDash" then
                     local data = GetUnitData(hero)
                     data.ShieldDashReflect = false

@@ -10,7 +10,7 @@ function AttackMelee(data)
         if not data.isAttacking then
             --print("пытаемся атаковать, запускаем кд атаки и прерываем движение")
             --print("a "..GetUnitName(mainHero))
-            local cdAttack = 0.4
+            local cdAttack = 0.6
             local indexAnim = data.IndexAnimationAttack1 --анимации атаки
             local pid = GetPlayerId(GetOwningPlayer(data.UnitHero))
             data.isAttacking = true
@@ -29,13 +29,6 @@ function AttackMelee(data)
 
             --local tmp=data.DamageInSeries
             --local lastAttack=#tmp
-            if data.LineCleaveAttack then
-                --data.LineCleaveAttack
-                TimerStart(CreateTimer(), 0.2, false, function()
-                    CreateAndForceBullet(data.UnitHero, angle, 20, "Abilities\\Spells\\Orc\\Shockwave\\ShockwaveMissile.mdl", GetUnitX(data.UnitHero), GetUnitY(data.UnitHero), 50, 700)
-                    DestroyTimer(GetExpiredTimer())
-                end)
-            end
 
             if GetUnitTypeId(data.UnitHero) == HeroID then
                 --local data=HERO[GetPlayerId(GetOwningPlayer(u))]
@@ -49,7 +42,7 @@ function AttackMelee(data)
             if data.AttackCount == 1 then
                 -- первый обычный удар
                 indexAnim = data.IndexAnimationAttack1
-                normal_sound("abilities\\weapons\\bristlebackmissile\\bristlebackmissilelaunch"..1, GetUnitXY(data.UnitHero))
+                --normal_sound("abilities\\weapons\\bristlebackmissile\\bristlebackmissilelaunch"..1, GetUnitXY(data.UnitHero))
                 TimerStart(CreateTimer(), 0.2, false, function()
                     DestroyTimer(GetExpiredTimer())
                     local eff = AddSpecialEffect(effectModel, GetUnitXY(data.UnitHero))
@@ -66,9 +59,9 @@ function AttackMelee(data)
 
                 if r == 1 then
                     indexAnim = data.IndexAnimationAttack1
-                    cdAttack = 0.4
+                    --cdAttack = 0.4
                     UnitAddForceSimple(data.UnitHero, GetUnitFacing(data.UnitHero), 10, 60)
-                    normal_sound("abilities\\weapons\\bristlebackmissile\\bristlebackmissilelaunch"..2, GetUnitXY(data.UnitHero))
+                    --normal_sound("abilities\\weapons\\bristlebackmissile\\bristlebackmissilelaunch"..2, GetUnitXY(data.UnitHero))
                     TimerStart(CreateTimer(), 0.3, false, function()
                         DestroyTimer(GetExpiredTimer())
                         local eff = AddSpecialEffect(effectModel, GetUnitXY(data.UnitHero))
@@ -80,7 +73,7 @@ function AttackMelee(data)
                     end)
                 else
                     indexAnim = data.IndexAnimationAttack2
-                    cdAttack = 0.4
+                    --cdAttack = 0.4
                     normal_sound("abilities\\weapons\\bristlebackmissile\\bristlebackmissilelaunch"..3, GetUnitXY(data.UnitHero))
                     TimerStart(CreateTimer(), 0.2, false, function()
                         DestroyTimer(GetExpiredTimer())
@@ -109,7 +102,7 @@ function AttackMelee(data)
                 normal_sound("Sound\\PeonSound\\cut\\BloodlustTarget", GetUnitXY(data.UnitHero))
                 TimerStart(CreateTimer(), 0.2, false, function()
                     DestroyTimer(GetExpiredTimer())
-                    normal_sound("abilities\\weapons\\bristlebackmissile\\bristlebackmissilelaunch3", GetUnitXY(data.UnitHero))
+                    --normal_sound("abilities\\weapons\\bristlebackmissile\\bristlebackmissilelaunch3", GetUnitXY(data.UnitHero))
                     UnitAddForceSimple(data.UnitHero, GetUnitFacing(data.UnitHero), 20, 120)
 
                     damage = data.DamageInSeries[finale] -- финальная атака
@@ -149,7 +142,7 @@ function AttackMelee(data)
 
 
 
-            TimerStart(CreateTimer(), cdAttack/2, false, function()
+            TimerStart(CreateTimer(), cdAttack, false, function()
                 DestroyTimer(GetExpiredTimer())
                 -- кд атаки тут для всех ударов
                 local nx, ny = MoveXY(GetUnitX(data.UnitHero), GetUnitY(data.UnitHero), 100, GetUnitFacing(data.UnitHero))

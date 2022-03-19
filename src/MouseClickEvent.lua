@@ -11,13 +11,9 @@ function InitMouseClickEvent()
     end
     TriggerAddAction(TrigPressLMB, function()
         if BlzGetTriggerPlayerMouseButton() == MOUSE_BUTTON_TYPE_LEFT then
-            local x,y=BlzGetTriggerPlayerMouseX(),BlzGetTriggerPlayerMouseY()
-           -- print("клик левой",x,y)
-
+            -- print("клик левой",x,y)
             local data = HERO[GetPlayerId(GetTriggerPlayer())]
             data.LMBIsPressed = true
-            TargetCatcher(data,x,y,200)
-
         end
     end)
 
@@ -40,16 +36,11 @@ function InitMouseClickEvent()
             if UnitAlive(data.UnitHero) then
 
                 if not data.SpaceForce then
-                    if GetUnitTypeId(data.UnitHero)==KazumaID or GetUnitTypeId(data.UnitHero)==DarknessID then
+                    if true then
                         AttackMelee(data)
-
                     end
-
                 end
-
             end
-
-
         end
     end)
     ---------------------- RMB
@@ -63,13 +54,9 @@ function InitMouseClickEvent()
             local data = HERO[GetPlayerId(GetTriggerPlayer())]
             data.RMBIsPressed = true
             local id = GetPlayerId(GetTriggerPlayer())
-            if not GetUnitTypeId(data.UnitHero)==KazumaID then
-                GetPlayerMouseX[id] = BlzGetTriggerPlayerMouseX()
-                GetPlayerMouseY[id] = BlzGetTriggerPlayerMouseY()
-            else
-                data.StartWaveCastX = BlzGetTriggerPlayerMouseX()
-                data.StartWaveCastY = BlzGetTriggerPlayerMouseY()
-            end
+            local x, y = BlzGetTriggerPlayerMouseX(), BlzGetTriggerPlayerMouseY()
+
+            TargetCatcher(data, x, y, 200)
         end
     end)
 
@@ -82,7 +69,7 @@ function InitMouseClickEvent()
             local data = HERO[GetPlayerId(GetTriggerPlayer())]
             data.RMBIsPressed = false
             local id = GetPlayerId(GetTriggerPlayer())
-            if  GetUnitTypeId(data.UnitHero)~=KazumaID then
+            if GetUnitTypeId(data.UnitHero) ~= KazumaID then
                 GetPlayerMouseX[id] = BlzGetTriggerPlayerMouseX()
                 GetPlayerMouseY[id] = BlzGetTriggerPlayerMouseY()
             else
